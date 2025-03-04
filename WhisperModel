@@ -4,6 +4,13 @@ model = whisper.load_model("base")
 model.device
 
 #Download a test audio
+
+#@title Download a test audio
+from IPython.display import clear_output
+!wget -O audio.mp3 http://www.moviesoundclips.net/movies1/darkknightrises/darkness.mp3
+clear_output()
+!ls | grep '.mp3'
+
 audio = "audio.mp3"
 
 # Play audio
