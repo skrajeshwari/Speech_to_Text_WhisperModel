@@ -1,0 +1,15 @@
+#@title Download a sample French audio
+from IPython.display import clear_output
+!wget -O french.mp3 https://www.lightbulblanguages.co.uk/resources/audio/quelageastu.mp3
+clear_output()
+!ls | grep 'french.mp3'
+
+# Play input audio
+Audio('french.mp3')
+
+# Translate
+inp_lang, output_file_path = transcribe('french.mp3', target_language='English')
+print(inp_lang)
+
+# Play output audio
+Audio(output_file_path)
