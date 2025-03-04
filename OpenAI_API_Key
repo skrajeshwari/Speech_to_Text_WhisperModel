@@ -1,0 +1,14 @@
+# If the key is in a text file, then UPLOAD your text file containing openapi-key, and run this cell.
+
+import openai
+
+f = open('/content/ts_openapi_key.txt')
+api_key = f.read()
+os.environ['OPENAI_API_KEY'] = api_key
+openai.api_key= os.getenv('OPENAI_API_KEY')
+
+# Create OpenAI client object
+from openai import OpenAI
+
+# Create OpenAI client object
+client = OpenAI()
