@@ -1,0 +1,27 @@
+#RuninBash
+
+#pip -q install openai
+#pip -q install pyannote.audio==3.1
+#pip -q install gradio
+#pip -q install -U git+https://github.com/openai/whisper.git
+
+# Install gTTS (Google Text-to-Speech), a Python library and CLI tool to interface with Google Translate's text-to-speech API.
+#pip -q install gTTS
+
+#Import Required Packages
+
+import os
+from google.colab import userdata
+import matplotlib.pyplot as plt
+import torch
+import torchaudio
+import openai
+from openai import OpenAI
+import whisper
+from IPython.display import Audio
+import pyannote.audio
+from pyannote.audio import Pipeline
+from pyannote.core import Segment
+from pyannote.audio.pipelines.utils.hook import ProgressHook
+from gtts import gTTS
+import gradio as gr
