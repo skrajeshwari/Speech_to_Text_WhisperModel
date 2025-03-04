@@ -1,0 +1,40 @@
+# Creating language mappings
+lang_mapping = {'English': 'en',
+                'Spanish': 'es',
+                'French': 'fr',
+                'German': 'gr',
+                'Italian': 'it',
+                'Japanese': 'ja'}
+
+# Transcribe function to convert speech to text in the selected language
+def transcribe(audio, target_language):
+    target_language = lang_mapping[target_language]
+    if audio is None:
+        return "No audio input received.", None
+    try:
+        # Load and process the audio file
+        audio_data = whisper.load_audio(audio)
+        audio_data = whisper.pad_or_trim(audio_data)
+
+        # Make log-Mel spectrogram and move to the same device as the model
+        mel = whisper.log_mel_spectrogram(audio_data).to(model.device)
+
+        # Detect the spoken language
+        _, probs = model.detect_language(mel)
+        detected_language = max(probs, key=probs.get)
+        # print(f"Detected language: {detected_language}")
+
+        # Decode the audio to text in the selected target language
+        options = whisper.DecodingOptions(language=target_language)  # Use the selected language for transcription
+        result = whisper.decode(model, mel, options)
+
+        # Convert the transcribed text to speech using gTTS
+        tts = gTTS(text=result.text, lang=target_language)
+        audio_output_path = "output_audio.mp3"
+        tts.save(audio_output_path)
+
+        return f"Detected language: {detected_language}\nTranscription: {result.text}", audio_output_path
+
+    except Exception as e:
+
+        return f"Error during transcription: {str(e)}", None
