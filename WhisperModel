@@ -1,0 +1,35 @@
+# Load the whisper model
+
+model = whisper.load_model("base")
+model.device
+
+#Download a test audio
+audio = "audio.mp3"
+
+# Play audio
+Audio(audio)
+
+# Load and process the audio file
+audio_data = whisper.load_audio(audio)
+audio_data = whisper.pad_or_trim(audio_data)
+
+# Make log-Mel spectrogram and move to the same device as the model
+mel = whisper.log_mel_spectrogram(audio_data).to(model.device)
+mel.shape
+
+# Visualize spectogram
+plt.figure(figsize=(10, 5))
+plt.imshow(mel)
+plt.show()
+
+# Detect the spoken language
+_, probs = model.detect_language(mel)
+detected_language = max(probs, key=probs.get)
+
+print(f"Detected language: {detected_language}")
+
+# This cell will take some time to run on cpu
+options = whisper.DecodingOptions(language='en')             # Use the selected language for transcription
+result = whisper.decode(model, mel, options)
+result.text
+
